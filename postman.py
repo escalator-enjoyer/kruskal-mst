@@ -84,6 +84,7 @@ class Graph:
     return self.vert_list.keys()
 
   def update_edges(self):
+    self.edges = []
     vertices = list(self.vert_list.values())
     for i in range(len(vertices)):
       for j in range(i + 1, len(vertices)):
@@ -91,6 +92,23 @@ class Graph:
         v2 = vertices[j]
         distance = math.hypot(v1.x - v2.x, v1.y - v2.y)
         self.add_edge(v1.get_id(), v2.get_id(), distance)
+
+  def remove_vertex(self, vertex_id):
+    if vertex_id in self.vert_list:
+      for neighbor in list(self.vert_list[vertex_id].get_connections()):
+        self.vert_list[neighbor.get_id()].connected_to.pop(self.vert_list[vertex_id], None)
+      del self.vert_list[vertex_id]
+      self.num_vertices -= 1
+      self.update_edges()
+
+  def renumber_vertices(self):
+    new_vert_list = {}
+    for i, (key, vertex) in enumerate(sorted(self.vert_list.items(), key=lambda x: int(x[0]))):
+      new_id = str(i + 1)
+      vertex.id = new_id
+      new_vert_list[new_id] = vertex
+    self.vert_list = new_vert_list
+    self.update_edges()
 
   def draw(self, screen):
     for vertex in self.vert_list.values():
@@ -171,7 +189,6 @@ def get_vertex_at_pos(x, y):
   for vertex in graph:
     if math.hypot(vertex.x - x, vertex.y - y) < 10:
       return vertex
-  graph.add_vertex(str(graph.num_vertices + 1), x, y)
   return None
 
 while running:
@@ -183,6 +200,15 @@ while running:
         mouse_x, mouse_y = event.pos
         selected_vertex = get_vertex_at_pos(mouse_x, mouse_y)
         if not selected_vertex:
+          graph.add_vertex(str(graph.num_vertices + 1), mouse_x, mouse_y)
+          mst = kruskal_mst(graph)
+      elif event.button == 3:
+        mouse_x, mouse_y = event.pos
+        selected_vertex = get_vertex_at_pos(mouse_x, mouse_y)
+        if selected_vertex:
+          graph.remove_vertex(selected_vertex.get_id())
+          graph.renumber_vertices()
+          graph.update_edges()
           mst = kruskal_mst(graph)
     elif event.type == pygame.MOUSEBUTTONUP:
       if event.button == 1:
