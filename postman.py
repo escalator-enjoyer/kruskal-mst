@@ -14,6 +14,8 @@ import random
 import sys
 import math
 
+reverse_mst = True
+
 pygame.init()
 
 width, height = 800, 600
@@ -154,7 +156,7 @@ def kruskal_mst(graph):
   for vertex in graph:
     for neighbor in vertex.get_connections():
       edges.append((vertex.get_weight(neighbor), vertex, neighbor))
-  edges.sort(key=lambda x: x[0])
+  edges.sort(key=lambda x: x[0], reverse=reverse_mst)
 
   ds = DisjointSet(graph.get_vertices())
   mst = []
@@ -223,6 +225,10 @@ while running:
         graph.vert_list = {}
         graph.generate_vertices(random.randrange(2, 10))
         mst = kruskal_mst(graph)
+      elif event.key == pygame.K_e:
+        reverse_mst = not reverse_mst
+        mst = kruskal_mst(graph)
+        draw_mst(screen, mst)
     elif event.type == pygame.VIDEORESIZE:
       width, height = event.size
       screen = pygame.display.set_mode((width, height), pygame.RESIZABLE)
