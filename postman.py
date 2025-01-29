@@ -14,7 +14,7 @@ import random
 import sys
 import math
 
-reverse_mst = True
+reverse_mst = False
 
 pygame.init()
 
