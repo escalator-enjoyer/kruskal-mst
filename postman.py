@@ -229,6 +229,10 @@ while running:
         reverse_mst = not reverse_mst
         mst = kruskal_mst(graph)
         draw_mst(screen, mst)
+      elif event.key == pygame.K_c:
+        graph.vert_list = {}
+        graph.generate_vertices(0)
+        mst = kruskal_mst(graph)
     elif event.type == pygame.VIDEORESIZE:
       width, height = event.size
       screen = pygame.display.set_mode((width, height), pygame.RESIZABLE)

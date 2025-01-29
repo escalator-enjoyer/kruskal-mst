@@ -3,5 +3,6 @@ So far, just a simple undirected graph and kruskal's algorithm to find the minim
 
 R - randomize vertice count & positions
 E - Switch between MST and maximum ST
+C - Clear
 Click - create/drag vertices
 Right Click - delete vertice
