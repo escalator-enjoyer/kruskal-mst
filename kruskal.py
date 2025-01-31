@@ -1,7 +1,7 @@
 """
 - Undirected graph
 - Vertices and weighted edges
-- Find shortest closed path that visits every edge at least once
+- Find MST
 - Kruskal's Algorithm
   1. sort all edges in the graph by their weight
   2. initialize a disjoint set for each vertex
@@ -20,7 +20,7 @@ pygame.init()
 
 width, height = 800, 600
 screen = pygame.display.set_mode((width, height), pygame.RESIZABLE)
-pygame.display.set_caption("chinese postman")
+pygame.display.set_caption("Kruskal MST")
 
 colors = {
   'white': (230, 230, 230),
