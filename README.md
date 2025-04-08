@@ -1,3 +1,4 @@
+the about section lied, it is NOT chinese postman
 # Kruskal to find MST
 - R - randomize vertice count & positions
 - E - Switch between MST and maximum ST
